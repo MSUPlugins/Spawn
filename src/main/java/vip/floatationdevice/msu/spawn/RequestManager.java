@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.UUID;
 
-import static vip.floatationdevice.msu.spawn.I18nUtil.translate;
+import static vip.floatationdevice.msu.I18nUtil.translate;
 
 public class RequestManager
 {

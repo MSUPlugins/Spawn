@@ -7,11 +7,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import vip.floatationdevice.msu.I18nUtil;
 
 import java.util.HashMap;
 import java.util.UUID;
 
-import static vip.floatationdevice.msu.spawn.I18nUtil.translate;
+import static vip.floatationdevice.msu.I18nUtil.translate;
 import static vip.floatationdevice.msu.spawn.RequestManager.interruptors;
 import static vip.floatationdevice.msu.spawn.SpawnPointManager.isSpawnPointFileExist;
 import static vip.floatationdevice.msu.spawn.SpawnPointManager.readSpawnLocation;

@@ -1,5 +1,7 @@
-language: "English(US)"
+language: "English (US)"
+language-file-version: 1
 language-file-contributor: "MCUmbrella"
+
 usage: "Usage: \n  /spawn : teleport to server spawn\n  /setspawn : set the spawn point"
 err-permission-denied: "You don't have permission to do that"
 err-player-only: "This command is only available to players"

@@ -1,5 +1,7 @@
 language: "中文（中国）"
+language-file-version: 1
 language-file-contributor: "MCUmbrella"
+
 usage: "用法: \n  /spawn : 传送到出生点\n  /setspawn : 设置出生点为当前位置"
 err-permission-denied: "权限不够"
 err-player-only: "此命令只能由玩家使用"

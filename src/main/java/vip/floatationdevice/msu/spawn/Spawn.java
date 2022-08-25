@@ -5,7 +5,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Logger;
 
-import static vip.floatationdevice.msu.spawn.I18nUtil.*;
+import static vip.floatationdevice.msu.I18nUtil.*;
 
 public final class Spawn extends JavaPlugin implements Listener
 {
@@ -21,7 +21,7 @@ public final class Spawn extends JavaPlugin implements Listener
         try
         {
             ConfigManager.initialize();
-            setLanguage(ConfigManager.getLanguage());
+            setLanguage(Spawn.class, ConfigManager.getLanguage());
             this.setEnabled(true);
             getCommand("spawn").setExecutor(new SpawnCommandExecutor());
             getCommand("setspawn").setExecutor(new SetspawnCommandExecutor());
