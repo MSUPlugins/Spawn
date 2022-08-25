@@ -1,0 +1,24 @@
+# DO NOT CHANGE MANUALLY!
+version: 1
+
+# Currently available: "en_US", "zh_CN"
+language: "en_US"
+
+# Use Minecraft's default spawn point instead of the plugin's
+useMinecraftSpawnPoint: false
+
+# Wait to use /spawn again
+cooldown:
+  # Seconds. A value <1 means disabled
+  sec: 5
+
+# Wait before teleporting
+warmup:
+  # Seconds. A value <1 means disabled
+  sec: 5
+  # When the listed things happen, the teleport will be cancelled
+  interruptBy:
+    move: true
+    message: true
+    interact: true
+    damage: true

@@ -1,0 +1,25 @@
+name: Spawn
+version: '${project.version}'
+main: vip.floatationdevice.msu.spawn.Spawn
+api-version: 1.13
+authors: [ MCUmbrella ]
+description: Teleport to server spawn point
+website: https://github.com/MSUPugins/Spawn
+commands:
+  spawn:
+    description: "Teleport to spawn point"
+  setspawn:
+    description: "Set spawn point"
+permissions:
+  spawn.spawn:
+    description: "Allows the player to teleport to spawn point"
+    default: true
+  spawn.setspawn:
+    description: "Allows the player to set the spawn point"
+    default: op
+  spawn.nocooldown:
+    description: "Allows the player to bypass the cooldown"
+    default: op
+  spawn.nowarmup:
+    description: "Allows the player to bypass the warmup"
+    default: op
