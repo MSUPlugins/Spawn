@@ -19,7 +19,7 @@ public class SpawnCommandExecutor implements CommandExecutor
         }
         else
         {
-            return RequestManager.makeTeleportRequest((Player)sender);
+            return RequestManager.makeTeleportRequest((Player) sender);
         }
     }
 }

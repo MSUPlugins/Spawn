@@ -5,7 +5,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Logger;
 
-import static vip.floatationdevice.msu.I18nUtil.*;
+import static vip.floatationdevice.msu.I18nUtil.setLanguage;
 
 public final class Spawn extends JavaPlugin implements Listener
 {
@@ -15,9 +15,9 @@ public final class Spawn extends JavaPlugin implements Listener
     @Override
     public void onEnable()
     {
-        instance=this;
-        log=getLogger();
-        getServer().getPluginManager().registerEvents(this,this);
+        instance = this;
+        log = getLogger();
+        getServer().getPluginManager().registerEvents(this, this);
         try
         {
             ConfigManager.initialize();
@@ -27,7 +27,7 @@ public final class Spawn extends JavaPlugin implements Listener
             getCommand("setspawn").setExecutor(new SetspawnCommandExecutor());
             log.info("Initialization complete");
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             log.severe("Initialization failed");
             e.printStackTrace();

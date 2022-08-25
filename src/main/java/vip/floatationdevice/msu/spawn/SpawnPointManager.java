@@ -6,7 +6,7 @@ import java.io.*;
 
 public class SpawnPointManager
 {
-    final static File SPAWN_POINT_FILE=new File(Spawn.instance.getDataFolder(), "spawn.txt");
+    final static File SPAWN_POINT_FILE = new File(Spawn.instance.getDataFolder(), "spawn.txt");
 
     static boolean isSpawnPointFileExist()
     {
@@ -21,10 +21,10 @@ public class SpawnPointManager
         }
         else
         {
-            BufferedReader br=new BufferedReader(new FileReader(SPAWN_POINT_FILE));
-            String line=br.readLine();
+            BufferedReader br = new BufferedReader(new FileReader(SPAWN_POINT_FILE));
+            String line = br.readLine();
             br.close();
-            String[] data=line.split(" ");
+            String[] data = line.split(" ");
             return new Location(
                     Spawn.instance.getServer().getWorld(data[0]),
                     Double.parseDouble(data[1]),
@@ -38,14 +38,14 @@ public class SpawnPointManager
     static void writeLocation(Location l) throws Exception
     {
         SPAWN_POINT_FILE.mkdirs();
-        BufferedWriter bw=new BufferedWriter(new FileWriter(SPAWN_POINT_FILE));
+        BufferedWriter bw = new BufferedWriter(new FileWriter(SPAWN_POINT_FILE));
         bw.write(
-                l.getWorld().getName()+" "
-                        +l.getX()+" "
-                        +l.getY()+" "
-                        +l.getZ()+" "
-                        +l.getYaw()+" "
-                        +l.getPitch()+"\n"
+                l.getWorld().getName() + " "
+                        + l.getX() + " "
+                        + l.getY() + " "
+                        + l.getZ() + " "
+                        + l.getYaw() + " "
+                        + l.getPitch() + "\n"
         );
         bw.flush();
         bw.close();

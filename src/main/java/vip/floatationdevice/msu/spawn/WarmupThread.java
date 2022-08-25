@@ -21,13 +21,13 @@ public class WarmupThread extends Thread implements Listener
 {
     private final UUID u;
     private final Player p;
-    private final HashMap<UUID,WarmupThread> targetMap;
+    private final HashMap<UUID, WarmupThread> targetMap;
 
-    public WarmupThread(UUID u, HashMap<UUID,WarmupThread> targetMap)
+    public WarmupThread(UUID u, HashMap<UUID, WarmupThread> targetMap)
     {
-        this.u=u;
-        p=Bukkit.getPlayer(u);
-        this.targetMap=targetMap;
+        this.u = u;
+        p = Bukkit.getPlayer(u);
+        this.targetMap = targetMap;
     }
 
     @Override
@@ -35,10 +35,10 @@ public class WarmupThread extends Thread implements Listener
     {
         try
         {
-            if(ConfigManager.getWarmupSec()>=1 && !p.hasPermission("spawn.nowarmup"))
+            if(ConfigManager.getWarmupSec() >= 1 && !p.hasPermission("spawn.nowarmup"))
             {
-                p.sendMessage(I18nUtil.translate("warmup").replace("{0}",String.valueOf(ConfigManager.getWarmupSec())));
-                Thread.sleep(ConfigManager.getWarmupSec()*1000L);
+                p.sendMessage(I18nUtil.translate("warmup").replace("{0}", String.valueOf(ConfigManager.getWarmupSec())));
+                Thread.sleep(ConfigManager.getWarmupSec() * 1000L);
             }
 
             if(!ConfigManager.useMinecraftSpawnPoint() && !isSpawnPointFileExist())
@@ -60,14 +60,14 @@ public class WarmupThread extends Thread implements Listener
                 {
                     p.sendMessage(translate("err-spawn-fail"));
                     Spawn.log.severe(translate("err-spawn-fail-console")
-                            .replace("{0}",p.getName())
-                            .replace("{1}",e.toString()));
+                            .replace("{0}", p.getName())
+                            .replace("{1}", e.toString()));
                 }
             }
         }
-        catch (InterruptedException e)
+        catch(InterruptedException e)
         {
-            Spawn.log.info("WarmupThread interrupted: "+e);
+            Spawn.log.info("WarmupThread interrupted: " + e);
         }
         targetMap.remove(u);
     }
