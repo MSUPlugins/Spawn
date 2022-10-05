@@ -12,5 +12,5 @@ Teleport to server spawn point
 # Config:
 - See [config.yml](https://github.com/MCUmbrella/MSU/blob/main/Spawn/src/main/resources/config.yml)
 # TODO:
-- [ ] Warmup
+- [x] Warmup
 - [ ] Teleport someone else

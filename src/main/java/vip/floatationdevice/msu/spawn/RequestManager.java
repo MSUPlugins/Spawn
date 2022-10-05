@@ -12,7 +12,7 @@ public class RequestManager
 {
     final static boolean[] interruptors = ConfigManager.getInterruptors();
     private static final HashMap<UUID, CooldownThread> cooldownPlayers = new HashMap<UUID, CooldownThread>();
-    private static final HashMap<UUID, WarmupThread> warmupPlayers = new HashMap<UUID, WarmupThread>();
+    private static final HashMap<UUID, TeleportThread> warmupPlayers = new HashMap<UUID, TeleportThread>();
 
     public static void addCooldown(UUID u)
     {
@@ -43,7 +43,7 @@ public class RequestManager
             }
             else
             {
-                WarmupThread w = new WarmupThread(p.getUniqueId(), warmupPlayers);
+                TeleportThread w = new TeleportThread(p.getUniqueId(), warmupPlayers);
                 warmupPlayers.put(p.getUniqueId(), w);
                 w.start();
                 return true;

@@ -10,7 +10,7 @@ useMinecraftSpawnPoint: false
 # Wait to use /spawn again
 cooldown:
   # Seconds. A value <1 means disabled
-  sec: 5
+  sec: 60
 
 # Wait before teleporting
 warmup:

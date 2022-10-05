@@ -37,7 +37,6 @@ public class SpawnPointManager
 
     static void writeLocation(Location l) throws Exception
     {
-        SPAWN_POINT_FILE.mkdirs();
         BufferedWriter bw = new BufferedWriter(new FileWriter(SPAWN_POINT_FILE));
         bw.write(
                 l.getWorld().getName() + " "

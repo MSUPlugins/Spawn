@@ -23,21 +23,21 @@ public class ConfigManager
 
     static int getConfigVersion(){return cfg.getInt("version");}
 
-    static String getLanguage(){return cfg.getString("language");}
+    static String getLanguage(){return cfg.getString("language", "en_US");}
 
     static boolean useMinecraftSpawnPoint(){return cfg.getBoolean("useMinecraftSpawnPoint");}
 
-    static int getCooldownSec(){return cfg.getInt("cooldown.sec");}
+    static int getCooldownSec(){return cfg.getInt("cooldown.sec", 60);}
 
-    static int getWarmupSec(){return cfg.getInt("warmup.sec");}
+    static int getWarmupSec(){return cfg.getInt("warmup.sec", 5);}
 
     static boolean[] getInterruptors()
     {
         return new boolean[]{
-                cfg.getBoolean("interruptBy.move"),
-                cfg.getBoolean("interruptBy.message"),
-                cfg.getBoolean("interruptBy.interact"),
-                cfg.getBoolean("interruptBy.damage"),
+                cfg.getBoolean("warmup.interruptBy.move"),
+                cfg.getBoolean("warmup.interruptBy.message"),
+                cfg.getBoolean("warmup.interruptBy.interact"),
+                cfg.getBoolean("warmup.interruptBy.damage"),
         };
     }
 }
