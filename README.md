@@ -10,7 +10,6 @@ Teleport to server spawn point
   - Permission:
     - `spawn.setspawn`: Use /setspawn command (auto-granted to admins)
 # Config:
-- See [config.yml](https://github.com/MCUmbrella/MSU/blob/main/Spawn/src/main/resources/config.yml)
+- See [config.yml](https://github.com/MSUPugins/Spawn/blob/main/src/main/resources/config.yml)
 # TODO:
-- [x] Warmup
 - [ ] Teleport someone else
