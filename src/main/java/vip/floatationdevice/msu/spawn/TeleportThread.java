@@ -24,6 +24,7 @@ public class TeleportThread extends Thread implements Listener
 
     public TeleportThread(UUID u, HashMap<UUID, TeleportThread> targetMap)
     {
+        setName("TeleportThread for " + Bukkit.getPlayer(u).getName());
         this.u = u;
         p = Bukkit.getPlayer(u);
         this.targetMap = targetMap;
@@ -34,7 +35,7 @@ public class TeleportThread extends Thread implements Listener
     {
         try
         {
-            if(ConfigManager.getWarmupSec() >= 1)
+            if(ConfigManager.getWarmupSec() >= 1) // if warmup is enabled
             {
                 Spawn.instance.getServer().getPluginManager().registerEvents(this, Spawn.instance);
                 // wait if no permission
@@ -89,10 +90,15 @@ public class TeleportThread extends Thread implements Listener
         }
         catch(InterruptedException e)
         {
-            // do nothing
+            Spawn.log.info(getName() + " gets interrupted");
         }
         targetMap.remove(u);
         PlayerMoveEvent.getHandlerList().unregister(this);
+        AsyncPlayerChatEvent.getHandlerList().unregister(this);
+        PlayerCommandPreprocessEvent.getHandlerList().unregister(this);
+        PlayerInteractEvent.getHandlerList().unregister(this);
+        EntityDamageEvent.getHandlerList().unregister(this);
+        PlayerQuitEvent.getHandlerList().unregister(this);
     }
 
     @EventHandler
@@ -101,7 +107,6 @@ public class TeleportThread extends Thread implements Listener
         if(interruptors[0] && targetMap.containsKey(e.getPlayer().getUniqueId()))
         {
             p.sendMessage(I18nUtil.translate("err-warmup-interrupted"));
-            targetMap.remove(u);
             interrupt();
         }
     }
@@ -112,7 +117,16 @@ public class TeleportThread extends Thread implements Listener
         if(interruptors[1] && targetMap.containsKey(e.getPlayer().getUniqueId()))
         {
             p.sendMessage(I18nUtil.translate("err-warmup-interrupted"));
-            targetMap.remove(u);
+            interrupt();
+        }
+    }
+
+    @EventHandler
+    public void onPlayerCommand(PlayerCommandPreprocessEvent e)
+    {
+        if(interruptors[1] && targetMap.containsKey(e.getPlayer().getUniqueId()))
+        {
+            p.sendMessage(I18nUtil.translate("err-warmup-interrupted"));
             interrupt();
         }
     }
@@ -123,7 +137,6 @@ public class TeleportThread extends Thread implements Listener
         if(interruptors[2] && targetMap.containsKey(e.getPlayer().getUniqueId()))
         {
             p.sendMessage(I18nUtil.translate("err-warmup-interrupted"));
-            targetMap.remove(u);
             interrupt();
         }
     }
@@ -134,7 +147,6 @@ public class TeleportThread extends Thread implements Listener
         if(interruptors[3] && e.getEntity() instanceof Player && targetMap.containsKey(e.getEntity().getUniqueId()))
         {
             p.sendMessage(I18nUtil.translate("err-warmup-interrupted"));
-            targetMap.remove(u);
             interrupt();
         }
     }
@@ -143,9 +155,6 @@ public class TeleportThread extends Thread implements Listener
     public void onLeave(PlayerQuitEvent e)
     {
         if(targetMap.containsKey(e.getPlayer().getUniqueId()))
-        {
-            targetMap.remove(u);
             interrupt();
-        }
     }
 }

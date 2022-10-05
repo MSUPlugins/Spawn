@@ -11,8 +11,8 @@ import static vip.floatationdevice.msu.I18nUtil.translate;
 public class RequestManager
 {
     final static boolean[] interruptors = ConfigManager.getInterruptors();
-    private static final HashMap<UUID, CooldownThread> cooldownPlayers = new HashMap<UUID, CooldownThread>();
-    private static final HashMap<UUID, TeleportThread> warmupPlayers = new HashMap<UUID, TeleportThread>();
+    final static HashMap<UUID, CooldownThread> cooldownPlayers = new HashMap<UUID, CooldownThread>();
+    final static HashMap<UUID, TeleportThread> warmupPlayers = new HashMap<UUID, TeleportThread>();
 
     public static void addCooldown(UUID u)
     {

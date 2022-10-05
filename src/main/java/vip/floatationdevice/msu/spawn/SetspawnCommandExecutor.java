@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import static vip.floatationdevice.msu.I18nUtil.translate;
-import static vip.floatationdevice.msu.spawn.SpawnPointManager.writeLocation;
+import static vip.floatationdevice.msu.spawn.SpawnPointManager.writeSpawnLocation;
 
 public class SetspawnCommandExecutor implements CommandExecutor
 {
@@ -25,7 +25,7 @@ public class SetspawnCommandExecutor implements CommandExecutor
                 Player p = (Player) sender;
                 try
                 {
-                    writeLocation(p.getLocation());
+                    writeSpawnLocation(p.getLocation());
                     p.sendMessage(translate("setspawn-success"));
                     return true;
                 }

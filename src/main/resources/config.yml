@@ -1,4 +1,4 @@
-# DO NOT CHANGE MANUALLY!
+# Only change it if you know how to manually upgrade the configuration file
 version: 1
 
 # Currently available: "en_US", "zh_CN"
@@ -16,7 +16,8 @@ cooldown:
 warmup:
   # Seconds. A value <1 means disabled
   sec: 5
-  # When the listed things happen, the teleport will be cancelled
+  # When the listed things happen, cancel the pending teleportation
+  # Set the value of an event to false to prevent the plugin from checking it
   interruptBy:
     move: true
     message: true

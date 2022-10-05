@@ -22,7 +22,6 @@ public final class Spawn extends JavaPlugin implements Listener
         {
             ConfigManager.initialize();
             setLanguage(Spawn.class, ConfigManager.getLanguage());
-            this.setEnabled(true);
             getCommand("spawn").setExecutor(new SpawnCommandExecutor());
             getCommand("setspawn").setExecutor(new SetspawnCommandExecutor());
             log.info("Initialization complete");
@@ -38,6 +37,8 @@ public final class Spawn extends JavaPlugin implements Listener
     @Override
     public void onDisable()
     {
-        //TODO
+        for(TeleportThread t : RequestManager.warmupPlayers.values())
+            t.interrupt();
+        RequestManager.cooldownPlayers.clear();
     }
 }

@@ -34,10 +34,10 @@ public class ConfigManager
     static boolean[] getInterruptors()
     {
         return new boolean[]{
-                cfg.getBoolean("warmup.interruptBy.move"),
-                cfg.getBoolean("warmup.interruptBy.message"),
-                cfg.getBoolean("warmup.interruptBy.interact"),
-                cfg.getBoolean("warmup.interruptBy.damage"),
+                cfg.getBoolean("warmup.interruptBy.move", true),
+                cfg.getBoolean("warmup.interruptBy.message", true),
+                cfg.getBoolean("warmup.interruptBy.interact", true),
+                cfg.getBoolean("warmup.interruptBy.damage", true),
         };
     }
 }

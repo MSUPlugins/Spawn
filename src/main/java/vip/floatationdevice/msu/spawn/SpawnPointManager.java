@@ -35,7 +35,7 @@ public class SpawnPointManager
         }
     }
 
-    static void writeLocation(Location l) throws Exception
+    static void writeSpawnLocation(Location l) throws Exception
     {
         BufferedWriter bw = new BufferedWriter(new FileWriter(SPAWN_POINT_FILE));
         bw.write(
