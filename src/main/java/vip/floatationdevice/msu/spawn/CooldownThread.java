@@ -1,15 +1,15 @@
 package vip.floatationdevice.msu.spawn;
 
-import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class CooldownThread extends Thread
 {
     private final UUID u;
-    private final HashMap<UUID, CooldownThread> targetMap;
+    private final ConcurrentHashMap<UUID, CooldownThread> targetMap;
     private long startTime;
 
-    public CooldownThread(UUID u, HashMap<UUID, CooldownThread> targetMap)
+    public CooldownThread(UUID u, ConcurrentHashMap<UUID, CooldownThread> targetMap)
     {
         this.u = u;
         this.targetMap = targetMap;

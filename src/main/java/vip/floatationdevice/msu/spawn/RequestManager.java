@@ -3,16 +3,16 @@ package vip.floatationdevice.msu.spawn;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static vip.floatationdevice.msu.I18nUtil.translate;
 
 public class RequestManager
 {
     final static boolean[] interruptors = ConfigManager.getInterruptors();
-    final static HashMap<UUID, CooldownThread> cooldownPlayers = new HashMap<UUID, CooldownThread>();
-    final static HashMap<UUID, TeleportThread> warmupPlayers = new HashMap<UUID, TeleportThread>();
+    final static ConcurrentHashMap<UUID, CooldownThread> cooldownPlayers = new ConcurrentHashMap<UUID, CooldownThread>();
+    final static ConcurrentHashMap<UUID, TeleportThread> warmupPlayers = new ConcurrentHashMap<UUID, TeleportThread>();
 
     public static void addCooldown(UUID u)
     {

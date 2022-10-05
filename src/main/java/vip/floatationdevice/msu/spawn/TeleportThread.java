@@ -8,8 +8,8 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.*;
 import vip.floatationdevice.msu.I18nUtil;
 
-import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static vip.floatationdevice.msu.I18nUtil.translate;
 import static vip.floatationdevice.msu.spawn.RequestManager.interruptors;
@@ -20,9 +20,9 @@ public class TeleportThread extends Thread implements Listener
 {
     private final UUID u;
     private final Player p;
-    private final HashMap<UUID, TeleportThread> targetMap;
+    private final ConcurrentHashMap<UUID, TeleportThread> targetMap;
 
-    public TeleportThread(UUID u, HashMap<UUID, TeleportThread> targetMap)
+    public TeleportThread(UUID u, ConcurrentHashMap<UUID, TeleportThread> targetMap)
     {
         setName("TeleportThread for " + Bukkit.getPlayer(u).getName());
         this.u = u;
