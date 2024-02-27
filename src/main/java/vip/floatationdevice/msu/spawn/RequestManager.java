@@ -6,17 +6,19 @@ import org.bukkit.entity.Player;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static vip.floatationdevice.msu.spawn.Spawn.cm;
 import static vip.floatationdevice.msu.spawn.Spawn.i18n;
 
 public class RequestManager
 {
-    final static boolean[] interruptors = ConfigManager.getInterruptors();
-    final static ConcurrentHashMap<UUID, CooldownThread> cooldownPlayers = new ConcurrentHashMap<UUID, CooldownThread>();
-    final static ConcurrentHashMap<UUID, TeleportThread> warmupPlayers = new ConcurrentHashMap<UUID, TeleportThread>();
+    final static ConcurrentHashMap<UUID, CooldownThread> cooldownPlayers = new ConcurrentHashMap<>();
+    final static ConcurrentHashMap<UUID, TeleportThread> warmupPlayers = new ConcurrentHashMap<>();
 
     public static void addCooldown(UUID u)
     {
-        if(ConfigManager.getCooldownSec() < 1 || Bukkit.getPlayer(u).hasPermission("spawn.nocooldown")) return;
+        if(cm.get(Integer.class, "cooldown.sec") < 1 || Bukkit.getPlayer(u).hasPermission("spawn.nocooldown"))
+            return;
+
         cooldownPlayers.put(u, new CooldownThread(u, cooldownPlayers));
         cooldownPlayers.get(u).start();
     }

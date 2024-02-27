@@ -3,6 +3,8 @@ package vip.floatationdevice.msu.spawn;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static vip.floatationdevice.msu.spawn.Spawn.cm;
+
 public class CooldownThread extends Thread
 {
     private final UUID u;
@@ -21,7 +23,7 @@ public class CooldownThread extends Thread
         try
         {
             startTime = System.currentTimeMillis();
-            Thread.sleep(ConfigManager.getCooldownSec() * 1000L);
+            Thread.sleep(1000L * cm.get(Integer.class, "cooldown.sec"));
         }
         catch(InterruptedException e)
         {
@@ -33,6 +35,6 @@ public class CooldownThread extends Thread
     public long getCooldownRemaining()
     {
         long past = System.currentTimeMillis() - startTime;
-        return ConfigManager.getCooldownSec() * 1000L - past;
+        return 1000L * cm.get(Integer.class, "cooldown.sec") - past;
     }
 }

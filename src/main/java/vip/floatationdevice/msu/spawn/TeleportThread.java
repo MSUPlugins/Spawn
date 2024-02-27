@@ -10,8 +10,7 @@ import org.bukkit.event.player.*;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static vip.floatationdevice.msu.spawn.RequestManager.interruptors;
-import static vip.floatationdevice.msu.spawn.Spawn.i18n;
+import static vip.floatationdevice.msu.spawn.Spawn.*;
 import static vip.floatationdevice.msu.spawn.SpawnPointManager.isSpawnPointFileExist;
 import static vip.floatationdevice.msu.spawn.SpawnPointManager.readSpawnLocation;
 
@@ -34,62 +33,62 @@ public class TeleportThread extends Thread implements Listener
     {
         try
         {
-            if(ConfigManager.getWarmupSec() >= 1) // if warmup is enabled
+            if(cm.get(Integer.class, "warmup.sec") >= 1) // if warmup is enabled
             {
-                Spawn.instance.getServer().getPluginManager().registerEvents(this, Spawn.instance);
+                instance.getServer().getPluginManager().registerEvents(this, instance);
                 // wait if no permission
                 if(!p.hasPermission("spawn.nowarmup"))
                 {
-                    p.sendMessage(i18n.translate("warmup").replace("{0}", String.valueOf(ConfigManager.getWarmupSec())));
-                    Thread.sleep(ConfigManager.getWarmupSec() * 1000L);
+                    p.sendMessage(i18n.translate("warmup").replace("{0}", String.valueOf(cm.get(Integer.class, "warmup.sec"))));
+                    Thread.sleep(1000L * cm.get(Integer.class, "warmup.sec"));
                 }
-                // ensure that player is in a normal state and then teleport
-                if(p.isOnline() && !p.isDead())
+                // don't teleport if player is dead or offline
+                if(!p.isOnline() || p.isDead())
+                    return;
+
+                if(!cm.get(Boolean.class, "useMinecraftSpawnPoint") && !isSpawnPointFileExist())
                 {
-                    if(!ConfigManager.useMinecraftSpawnPoint() && !isSpawnPointFileExist())
+                    // server has no spawn file and not using mc spawn? teleport player to mc spawn anyway
+                    Bukkit.getScheduler().runTask(instance, new Runnable()
                     {
-                        // server has no spawn file and not using mc spawn? teleport player to mc spawn anyway
-                        Bukkit.getScheduler().runTask(Spawn.instance, new Runnable()
+                        @Override
+                        public void run()
                         {
-                            @Override
-                            public void run()
+                            log.warning(i18n.translate("warn-spawn-not-set"));
+                            p.teleport(instance.getServer().getWorlds().get(0).getSpawnLocation(), PlayerTeleportEvent.TeleportCause.COMMAND);
+                            RequestManager.addCooldown(u);
+                            p.sendMessage(i18n.translate("spawn-success"));
+                        }
+                    });
+                }
+                else
+                {
+                    Bukkit.getScheduler().runTask(instance, new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            try
                             {
-                                Spawn.log.warning(i18n.translate("warn-spawn-not-set"));
-                                p.teleport(Spawn.instance.getServer().getWorlds().get(0).getSpawnLocation(), PlayerTeleportEvent.TeleportCause.COMMAND);
+                                p.teleport(readSpawnLocation(), PlayerTeleportEvent.TeleportCause.COMMAND);
                                 RequestManager.addCooldown(u);
                                 p.sendMessage(i18n.translate("spawn-success"));
                             }
-                        });
-                    }
-                    else
-                    {
-                        Bukkit.getScheduler().runTask(Spawn.instance, new Runnable()
-                        {
-                            @Override
-                            public void run()
+                            catch(Exception e)
                             {
-                                try
-                                {
-                                    p.teleport(readSpawnLocation(), PlayerTeleportEvent.TeleportCause.COMMAND);
-                                    RequestManager.addCooldown(u);
-                                    p.sendMessage(i18n.translate("spawn-success"));
-                                }
-                                catch(Exception e)
-                                {
-                                    p.sendMessage(i18n.translate("err-spawn-fail"));
-                                    Spawn.log.severe(i18n.translate("err-spawn-fail-console")
-                                            .replace("{0}", p.getName())
-                                            .replace("{1}", e.toString()));
-                                }
+                                p.sendMessage(i18n.translate("err-spawn-fail"));
+                                log.severe(i18n.translate("err-spawn-fail-console")
+                                        .replace("{0}", p.getName())
+                                        .replace("{1}", e.toString()));
                             }
-                        });
-                    }
+                        }
+                    });
                 }
             }
         }
         catch(InterruptedException e)
         {
-            Spawn.log.info(getName() + " gets interrupted");
+            log.info(getName() + " gets interrupted");
         }
         targetMap.remove(u);
         PlayerMoveEvent.getHandlerList().unregister(this);
@@ -103,7 +102,7 @@ public class TeleportThread extends Thread implements Listener
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent e)
     {
-        if(interruptors[0] && targetMap.containsKey(e.getPlayer().getUniqueId()))
+        if(cm.get(Boolean.class, "warmup.interruptBy.move") && targetMap.containsKey(e.getPlayer().getUniqueId()))
         {
             p.sendMessage(i18n.translate("err-warmup-interrupted"));
             interrupt();
@@ -113,7 +112,7 @@ public class TeleportThread extends Thread implements Listener
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent e)
     {
-        if(interruptors[1] && targetMap.containsKey(e.getPlayer().getUniqueId()))
+        if(cm.get(Boolean.class, "warmup.interruptBy.message") && targetMap.containsKey(e.getPlayer().getUniqueId()))
         {
             p.sendMessage(i18n.translate("err-warmup-interrupted"));
             interrupt();
@@ -123,7 +122,7 @@ public class TeleportThread extends Thread implements Listener
     @EventHandler
     public void onPlayerCommand(PlayerCommandPreprocessEvent e)
     {
-        if(interruptors[1] && targetMap.containsKey(e.getPlayer().getUniqueId()))
+        if(cm.get(Boolean.class, "warmup.interruptBy.message") && targetMap.containsKey(e.getPlayer().getUniqueId()))
         {
             p.sendMessage(i18n.translate("err-warmup-interrupted"));
             interrupt();
@@ -133,7 +132,7 @@ public class TeleportThread extends Thread implements Listener
     @EventHandler
     public void onPLayerInteract(PlayerInteractEvent e)
     {
-        if(interruptors[2] && targetMap.containsKey(e.getPlayer().getUniqueId()))
+        if(cm.get(Boolean.class, "warmup.interruptBy.interact") && targetMap.containsKey(e.getPlayer().getUniqueId()))
         {
             p.sendMessage(i18n.translate("err-warmup-interrupted"));
             interrupt();
@@ -143,7 +142,7 @@ public class TeleportThread extends Thread implements Listener
     @EventHandler
     public void onPlayerDamage(EntityDamageEvent e)
     {
-        if(interruptors[3] && e.getEntity() instanceof Player && targetMap.containsKey(e.getEntity().getUniqueId()))
+        if(cm.get(Boolean.class, "warmup.interruptBy.damage") && e.getEntity() instanceof Player && targetMap.containsKey(e.getEntity().getUniqueId()))
         {
             p.sendMessage(i18n.translate("err-warmup-interrupted"));
             interrupt();
