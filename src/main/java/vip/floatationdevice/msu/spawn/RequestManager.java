@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static vip.floatationdevice.msu.I18nUtil.translate;
+import static vip.floatationdevice.msu.spawn.Spawn.i18n;
 
 public class RequestManager
 {
@@ -33,12 +33,12 @@ public class RequestManager
         {
             if(hasCooldown(p.getUniqueId()))
             {
-                p.sendMessage(translate("err-cooldown").replace("{0}", String.valueOf(getCooldownRemaining(p.getUniqueId()) / 1000L)));
+                p.sendMessage(i18n.translate("err-cooldown").replace("{0}", String.valueOf(getCooldownRemaining(p.getUniqueId()) / 1000L)));
                 return false;
             }
             else if(hasWarmup(p.getUniqueId()))
             {
-                p.sendMessage(translate("err-warmup"));
+                p.sendMessage(i18n.translate("err-warmup"));
                 return false;
             }
             else
@@ -51,7 +51,7 @@ public class RequestManager
         }
         else
         {
-            p.sendMessage(translate("err-permission-denied"));
+            p.sendMessage(i18n.translate("err-permission-denied"));
             return false;
         }
     }

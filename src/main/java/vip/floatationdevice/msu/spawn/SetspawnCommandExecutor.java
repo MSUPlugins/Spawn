@@ -5,7 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import static vip.floatationdevice.msu.I18nUtil.translate;
+import static vip.floatationdevice.msu.spawn.Spawn.i18n;
 import static vip.floatationdevice.msu.spawn.SpawnPointManager.writeSpawnLocation;
 
 public class SetspawnCommandExecutor implements CommandExecutor
@@ -15,7 +15,7 @@ public class SetspawnCommandExecutor implements CommandExecutor
     {
         if(!(sender instanceof Player))
         {
-            sender.sendMessage(translate("err-player-only"));
+            sender.sendMessage(i18n.translate("err-player-only"));
             return false;
         }
         else
@@ -26,19 +26,19 @@ public class SetspawnCommandExecutor implements CommandExecutor
                 try
                 {
                     writeSpawnLocation(p.getLocation());
-                    p.sendMessage(translate("setspawn-success"));
+                    p.sendMessage(i18n.translate("setspawn-success"));
                     return true;
                 }
                 catch(Exception e)
                 {
-                    p.sendMessage(translate("err-setspawn-fail"));
+                    p.sendMessage(i18n.translate("err-setspawn-fail"));
                     e.printStackTrace();
                     return false;
                 }
             }
             else
             {
-                sender.sendMessage(translate("err-permission-denied"));
+                sender.sendMessage(i18n.translate("err-permission-denied"));
                 return false;
             }
         }

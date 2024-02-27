@@ -5,7 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import static vip.floatationdevice.msu.I18nUtil.translate;
+import static vip.floatationdevice.msu.spawn.Spawn.i18n;
 
 public class SpawnCommandExecutor implements CommandExecutor
 {
@@ -14,7 +14,7 @@ public class SpawnCommandExecutor implements CommandExecutor
     {
         if(!(sender instanceof Player))
         {
-            sender.sendMessage(translate("err-player-only"));
+            sender.sendMessage(i18n.translate("err-player-only"));
             return false;
         }
         else

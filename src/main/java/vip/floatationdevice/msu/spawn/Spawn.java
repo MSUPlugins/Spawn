@@ -2,15 +2,15 @@ package vip.floatationdevice.msu.spawn;
 
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import vip.floatationdevice.msu.I18nManager;
 
 import java.util.logging.Logger;
 
-import static vip.floatationdevice.msu.I18nUtil.setLanguage;
-
 public final class Spawn extends JavaPlugin implements Listener
 {
-    public static Spawn instance;
-    public static Logger log;
+    static Spawn instance;
+    static Logger log;
+    static I18nManager i18n;
 
     @Override
     public void onEnable()
@@ -21,7 +21,7 @@ public final class Spawn extends JavaPlugin implements Listener
         try
         {
             ConfigManager.initialize();
-            setLanguage(Spawn.class, ConfigManager.getLanguage());
+            i18n = new I18nManager(this).setLanguage(ConfigManager.getLanguage());
             getCommand("spawn").setExecutor(new SpawnCommandExecutor());
             getCommand("setspawn").setExecutor(new SetspawnCommandExecutor());
             log.info("Initialization complete");
