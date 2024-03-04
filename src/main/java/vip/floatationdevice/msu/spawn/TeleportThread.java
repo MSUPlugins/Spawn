@@ -83,11 +83,12 @@ public class TeleportThread extends Thread implements Listener
         }
         catch(InterruptedException e)
         {
-            log.info("Cancelled teleport for " + p.getName());
+            if(p.isOnline())
+                p.sendMessage(i18n.translate("err-warmup-interrupted"));
+//            log.info("Cancelled teleport for " + p.getName());
         }
 
         // cleanup
-        targetMap.remove(u);
         PlayerMoveEvent.getHandlerList().unregister(this);
         AsyncPlayerChatEvent.getHandlerList().unregister(this);
         PlayerCommandPreprocessEvent.getHandlerList().unregister(this);
@@ -95,6 +96,7 @@ public class TeleportThread extends Thread implements Listener
         PlayerInteractEntityEvent.getHandlerList().unregister(this);
         EntityDamageByEntityEvent.getHandlerList().unregister(this);
         PlayerQuitEvent.getHandlerList().unregister(this);
+        targetMap.remove(u);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -104,10 +106,7 @@ public class TeleportThread extends Thread implements Listener
             return;
 
         if(e.getPlayer() == p && rm.hasWarmup(u))
-        {
-            p.sendMessage(i18n.translate("err-warmup-interrupted"));
             interrupt();
-        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -117,10 +116,7 @@ public class TeleportThread extends Thread implements Listener
             return;
 
         if(e.getPlayer() == p && rm.hasWarmup(u))
-        {
-            p.sendMessage(i18n.translate("err-warmup-interrupted"));
             interrupt();
-        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -130,10 +126,7 @@ public class TeleportThread extends Thread implements Listener
             return;
 
         if(e.getPlayer() == p && rm.hasWarmup(u))
-        {
-            p.sendMessage(i18n.translate("err-warmup-interrupted"));
             interrupt();
-        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -143,10 +136,7 @@ public class TeleportThread extends Thread implements Listener
             return;
 
         if(e.getPlayer() == p && rm.hasWarmup(u))
-        {
-            p.sendMessage(i18n.translate("err-warmup-interrupted"));
             interrupt();
-        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -156,10 +146,7 @@ public class TeleportThread extends Thread implements Listener
             return;
 
         if(e.getPlayer() == p && rm.hasWarmup(u))
-        {
-            p.sendMessage(i18n.translate("err-warmup-interrupted"));
             interrupt();
-        }
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -169,10 +156,7 @@ public class TeleportThread extends Thread implements Listener
             return;
 
         if((e.getEntity() == p || e.getDamager() == p) && rm.hasWarmup(u))
-        {
-            p.sendMessage(i18n.translate("err-warmup-interrupted"));
             interrupt();
-        }
     }
 
     @EventHandler(priority = EventPriority.LOWEST)

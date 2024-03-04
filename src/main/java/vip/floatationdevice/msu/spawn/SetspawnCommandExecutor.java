@@ -23,6 +23,12 @@ public class SetspawnCommandExecutor implements CommandExecutor
 
         Player p = (Player) sender;
 
+        if(args.length != 0)
+        {
+            p.sendMessage(i18n.translate("usage"));
+            return false;
+        }
+
         if(!p.hasPermission(SETSPAWN_PERM))
         {
             p.sendMessage(i18n.translate("err-permission-denied"));

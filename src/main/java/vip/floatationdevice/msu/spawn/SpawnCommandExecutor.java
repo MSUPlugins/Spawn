@@ -23,6 +23,12 @@ public class SpawnCommandExecutor implements CommandExecutor
 
         Player p = (Player) sender;
 
+        if(args.length != 0)
+        {
+            p.sendMessage(i18n.translate("usage"));
+            return false;
+        }
+
         if(!p.hasPermission(SPAWN_PERM))
             p.sendMessage(i18n.translate("err-permission-denied"));
         else
