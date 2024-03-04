@@ -27,8 +27,9 @@ public class CooldownThread extends Thread
         }
         catch(InterruptedException e)
         {
-            e.printStackTrace();
+            // ignore
         }
+
         targetMap.remove(u);
     }
 

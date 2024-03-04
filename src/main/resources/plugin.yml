@@ -1,10 +1,12 @@
 name: Spawn
 version: '${project.version}'
+description: Teleport to server spawn point
+authors: [ MCUmbrella ]
+website: https://github.com/MSUPlugins/Spawn
 main: vip.floatationdevice.msu.spawn.Spawn
 api-version: 1.13
-authors: [ MCUmbrella ]
-description: Teleport to server spawn point
-website: https://github.com/MSUPugins/Spawn
+depend:
+  - MSUCore
 commands:
   spawn:
     description: "Teleport to spawn point"

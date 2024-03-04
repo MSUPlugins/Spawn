@@ -13,6 +13,8 @@ public final class Spawn extends JavaPlugin implements Listener
     static Logger log;
     static ConfigManager cm;
     static I18nManager i18n;
+    static SpawnPointManager spm;
+    static RequestManager rm;
 
     @Override
     public void onEnable()
@@ -21,6 +23,8 @@ public final class Spawn extends JavaPlugin implements Listener
         log = getLogger();
         cm = new ConfigManager(this, 1).initialize();
         i18n = new I18nManager(this).setLanguage(cm.get(String.class, "language"));
+        spm = new SpawnPointManager();
+        rm = new RequestManager();
 
         getServer().getPluginManager().registerEvents(this, this);
         getCommand("spawn").setExecutor(new SpawnCommandExecutor());
@@ -33,8 +37,10 @@ public final class Spawn extends JavaPlugin implements Listener
     public void onDisable()
     {
         log.info("Spawn is being unloaded");
-        for(TeleportThread t : RequestManager.warmupPlayers.values())
+
+        for(TeleportThread t : rm.warmupPlayers.values())
             t.interrupt();
-        RequestManager.cooldownPlayers.clear();
+        for(CooldownThread t : rm.cooldownPlayers.values())
+            t.interrupt();
     }
 }

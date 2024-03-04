@@ -4,31 +4,33 @@ import org.bukkit.Location;
 
 import java.io.*;
 
-import static vip.floatationdevice.msu.spawn.Spawn.instance;
 import static vip.floatationdevice.msu.spawn.Spawn.cm;
+import static vip.floatationdevice.msu.spawn.Spawn.instance;
 
 public class SpawnPointManager
 {
-    final static File SPAWN_POINT_FILE = new File(instance.getDataFolder(), "spawn.txt");
+    private final File spawnFile = new File(instance.getDataFolder(), "spawn.txt");
+    private Location cachedSpawnLocation;
 
-    static boolean isSpawnPointFileExist()
+    boolean isSpawnPointFileExist()
     {
-        return SPAWN_POINT_FILE.exists();
+        return spawnFile.exists() && spawnFile.canRead() && spawnFile.isFile();
     }
 
-    static Location readSpawnLocation() throws Exception
+    Location readSpawnLocation() throws Exception
     {
+        if(cachedSpawnLocation != null)
+            return cachedSpawnLocation;
+
         if(cm.get(Boolean.class, "useMinecraftSpawnPoint"))
-        {
-            return instance.getServer().getWorlds().get(0).getSpawnLocation();
-        }
+            return cachedSpawnLocation = instance.getServer().getWorlds().get(0).getSpawnLocation();
         else
         {
-            BufferedReader br = new BufferedReader(new FileReader(SPAWN_POINT_FILE));
+            BufferedReader br = new BufferedReader(new FileReader(spawnFile));
             String line = br.readLine();
             br.close();
             String[] data = line.split(" ");
-            return new Location(
+            return cachedSpawnLocation = new Location(
                     instance.getServer().getWorld(data[0]),
                     Double.parseDouble(data[1]),
                     Double.parseDouble(data[2]),
@@ -38,17 +40,20 @@ public class SpawnPointManager
         }
     }
 
-    static void writeSpawnLocation(Location l) throws Exception
+    void writeSpawnLocation(Location l) throws Exception
     {
-        BufferedWriter bw = new BufferedWriter(new FileWriter(SPAWN_POINT_FILE));
-        bw.write(
-                l.getWorld().getName() + " "
-                        + l.getX() + " "
-                        + l.getY() + " "
-                        + l.getZ() + " "
-                        + l.getYaw() + " "
-                        + l.getPitch() + "\n"
-        );
+        BufferedWriter bw = new BufferedWriter(new FileWriter(spawnFile, false));
+        bw.write(l.getWorld().getName());
+        bw.write(' ');
+        bw.write(String.valueOf(l.getX()));
+        bw.write(' ');
+        bw.write(String.valueOf(l.getY()));
+        bw.write(' ');
+        bw.write(String.valueOf(l.getZ()));
+        bw.write(' ');
+        bw.write(String.valueOf(l.getYaw()));
+        bw.write(' ');
+        bw.write(String.valueOf(l.getPitch()));
         bw.flush();
         bw.close();
     }
